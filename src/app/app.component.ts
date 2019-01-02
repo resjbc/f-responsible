@@ -12,7 +12,7 @@ export class AppComponent implements OnInit{
 
   AppURL = AppURL;
   AuthURL = AuthURL;
-  title = 'f-responsible';
+  title = 'Responsible';
 
   ngOnInit(): void {
 
