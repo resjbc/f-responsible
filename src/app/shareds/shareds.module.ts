@@ -8,7 +8,11 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [AuthContentComponent, AuthNavbarComponent, AuthSidebarComponent],
+  declarations: [
+    AuthContentComponent, 
+    AuthNavbarComponent, 
+    AuthSidebarComponent
+  ],
   imports: [
     CommonModule,
     RouterModule

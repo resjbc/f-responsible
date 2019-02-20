@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AppRouting } from './app.routing';
 import { SharedsModule } from './shareds/shareds.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SharedsModule } from './shareds/shareds.module';
     BrowserModule,
     AppRouting,
     SharedsModule,
+    HttpClientModule,
  
   ],
   providers: [],
