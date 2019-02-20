@@ -28,6 +28,7 @@ export class AuthSidebarComponent implements OnInit, IAuthSidebarComponent {
     private alert: AlertService,
     private router: Router) {
     //this.initailLoadUserlogin();
+    setTimeout(() => App.initialLoadPage(), 100);
   }
 
   ngOnInit() {
