@@ -1,0 +1,16 @@
+.example-form {
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  @media screen {
+    .modal-lg {
+        width: 80% !important;
+        max-width: calc(80%);
+    }
+}

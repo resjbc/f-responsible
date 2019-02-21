@@ -22,15 +22,17 @@ export interface IAccount {
     lastname: string;
     cid: string;
     hoscode: string;
-    position? : IPosition;
+    position? : IPositionItem;
     flag_active?: boolean;
     date_created?: Date;
     date_updated?: Date;
     role?: number;
 }
 
-export interface IPosition {
-    position: string;
+export interface IPositionItem {
+    id_position?: number,
+    position: string,
+    active?: boolean
 }
 
 // สิทธ์ผู้ใช้งาน
