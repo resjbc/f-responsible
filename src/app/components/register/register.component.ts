@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AppURL } from '../../app.url';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../shareds/services/alert.service';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ValidatorsService } from '../../shareds/services/validators.service';
 import { AlllistService } from '../../../app/services/alllist.service';
 import { IPositionItem } from '../login/login.interface';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ export class RegisterComponent implements OnInit {
 
   Url = AppURL;
   form: FormGroup;
+  modalRef: BsModalRef;
 
   positions: IPositionItem[];
 
@@ -26,13 +28,18 @@ export class RegisterComponent implements OnInit {
     private account: AccountService,
     private router: Router,
     private validator: ValidatorsService,
-    private alllists: AlllistService
+    private alllists: AlllistService,
+    private modalService: BsModalService,
   ) {
     this.initialCreateFormData();
    }
 
   ngOnInit() {
     this.getListPositions();
+  }
+
+  openModal(templete: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(templete, { class: 'modal-lg' });
   }
 
   private initialCreateFormData() {
@@ -72,6 +79,10 @@ export class RegisterComponent implements OnInit {
       )
       .catch(err =>
         this.alert.notify(err.Message));
+  }
+  
+  resultItem(hoscode: String) {
+    this.form.get('hoscode').setValue(hoscode);
   }
 
 }

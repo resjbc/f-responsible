@@ -7,16 +7,17 @@ import { Observable } from "rxjs";
 })
 export class HttpService {
 
-  
+
   constructor(private http: HttpClient) { }
 
-  private address: string = 'http://localhost:3000/';
+  private address: string = 'http://localhost:3001/';
 
   //ส่งข้อมูลแบบ Get method
-  requestGet(url: string, accessToken?: string) {
+  requestGet(url: string, params?: any, accessToken?: string) {
     return this.http
-      .get(`${this.address}${url}`,{
-        headers: this.appendHeaders(accessToken)
+      .get(`${this.address}${url}`, {
+        headers: this.appendHeaders(accessToken),
+        params:params
       })
       .pipe(catchError(err => this.handleError(err)));
   }
@@ -33,16 +34,16 @@ export class HttpService {
 
   requestDelete(url: string, accessToken?: string) {
     return this.http
-    .delete(`${this.address}${url}`, {
-      headers: this.appendHeaders(accessToken)
-    })
+      .delete(`${this.address}${url}`, {
+        headers: this.appendHeaders(accessToken)
+      })
       .pipe(catchError(err => this.handleError(err)));
   }
 
   //ส่งข้อมูลแบบ Put method
   requestPut(url: string, accessToken?: string) {
     return this.http
-      .put(`${this.address}${url}`,{
+      .put(`${this.address}${url}`, {
         headers: this.appendHeaders(accessToken)
       })
       .pipe(catchError(err => this.handleError(err)));

@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title pull-left">เพิ่มรายการ</h4>
+    <h4 class="modal-title pull-left">เลือกสถานบริการ</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -21,23 +21,23 @@
               <label for="">สถานบริการ</label>
               <select class="form-control" formControlName="hospital">
                 <option value="" selected>เลือกสถานบริการ</option>
-                <option *ngFor="let hospital of hospitals" [value]="hospital.hoscode">{{hospital.hosname}}</option>
+                <option *ngFor="let hospital of hospitals" [value]="hospital.hoscode">{{hospital.hoscode}} - {{hospital.hosname}}</option>
               </select>
             </div>
-          <div class="col-md-12  text-center">
+          <!--<div class="col-md-12  text-center">
             <div class="form-group">
-              <button type="" [disabled]="!form.controls.list.value" (click)="onResetList()" class="btn btn-danger">
+              <button type=""  (click)="onResetList()" class="btn btn-danger">
                 ล้างรายการ
               </button>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
   
     </div>
     <div class="modal-footer">
-      <button type="submit" [disabled]="!form.controls.list.value" class="btn btn-primary">
-        เพิ่มรายการ
+      <button type="submit" [disabled]="!form.controls.hospital.value" class="btn btn-primary">
+        ตกลง
       </button>
     </div>
   </form>

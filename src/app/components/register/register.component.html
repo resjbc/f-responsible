@@ -18,18 +18,22 @@
       </div>
       <div class="form-group">
         <label class="control-label">บัตรประชาชน</label>
-        <input class="form-control" formControlName="cid" type="number" placeholder="กรุณากรอกข้อมูล">
+        <input class="form-control" formControlName="cid" type="text" placeholder="กรุณากรอกข้อมูล">
       </div>
       <div class="form-group">
-          <label for="">ตำแหน่ง</label>
-          <select class="form-control" formControlName="id_position">
-            <option value="" selected>เลือกตำแหน่ง</option>
-            <option *ngFor="let position of positions" [value]="position.id_position">{{position.position}}</option>
-          </select>
-        </div>
+        <label for="">ตำแหน่ง</label>
+        <select class="form-control" formControlName="id_position">
+          <option value="" selected>เลือกตำแหน่ง</option>
+          <option *ngFor="let position of positions" [value]="position.id_position">{{position.position}}</option>
+        </select>
+      </div>
       <div class="form-group">
         <label class="control-label">ผู้ใช้งาน</label>
         <input class="form-control" formControlName="username" type="text" placeholder="กรุณากรอกข้อมูล" autofocus>
+      </div>
+      <div class="form-group">
+        <label class="control-label">สถานบริการ</label>
+        <input class="form-control" formControlName="hoscode" type="text" (click)="openModal(template)" >
       </div>
       <div class="form-group">
         <label class="control-label">รหัสผ่าน</label>
@@ -51,3 +55,8 @@
 
   </div>
 </section>
+
+
+<ng-template #template>
+  <app-listplace [modalRef]="modalRef" (hoscode)="resultItem($event)" ></app-listplace>
+</ng-template>

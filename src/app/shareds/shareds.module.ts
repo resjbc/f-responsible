@@ -62,7 +62,8 @@ import { ListplaceComponent } from './components/listplace/listplace.component';
     MatInputModule,
     MatSortModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ListplaceComponent
   ],
   providers: [
     AlertService,

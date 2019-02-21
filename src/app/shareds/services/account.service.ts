@@ -31,7 +31,7 @@ export class AccountService {
 
   onLogin(model: ILogin) {
     return this.http
-      .requestPost(`account/login`, model)
+      .requestPost(`login`, model)
       .toPromise() as Promise<{ accessToken: string }>;
   }
 
@@ -64,7 +64,7 @@ export class AccountService {
   }
 
   onRegister(model: IRegister) {
-    return this.http.requestPost('account/register', model)
+    return this.http.requestPost('register', model)
       .toPromise() as Promise<IAccount>;
   }
 
