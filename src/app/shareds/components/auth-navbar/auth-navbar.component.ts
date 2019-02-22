@@ -27,8 +27,7 @@ export class AuthNavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.userLogin = this.account.UserLogin;
-    //console.log(this.userLogin);
+    this.userLogin = this.account.UserLogin;
   }
 
   onLogout() {

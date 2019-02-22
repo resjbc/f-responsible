@@ -6,11 +6,11 @@
     <h1>Member</h1>
   </div>
   <div class="login-box">
-    <form class="login-form"  (submit) = "onSubmit()">
+    <form class="login-form" [formGroup]="form" (submit) = "onSubmit()">
       <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>เข้าสู่ระบบ</h3>
       <div class="form-group">
-        <label class="control-label">อีเมล์</label>
-        <input class="form-control" formControlName = "email"  type="text" placeholder="กรุณากรอกข้อมูล" autofocus>
+        <label class="control-label">ผู้ใช้งาน (Username)</label>
+        <input class="form-control" formControlName = "username"  type="text" placeholder="กรุณากรอกข้อมูล" autofocus>
       </div>
       <div class="form-group">
         <label class="control-label">รหัสผ่าน</label>

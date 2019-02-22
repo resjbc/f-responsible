@@ -16,7 +16,6 @@ export class AccountService {
   public UserLogin: IAccount = {} as any;
 
   public setUserLogin(userLogin: IAccount) {
-
     this.UserLogin.id_user = userLogin.id_user;
     this.UserLogin.firstname = userLogin.firstname;
     this.UserLogin.lastname = userLogin.lastname;
@@ -24,8 +23,7 @@ export class AccountService {
     this.UserLogin.username = userLogin.username;
     this.UserLogin.role = userLogin.role;
     this.UserLogin.cid = userLogin.cid;
-    this.UserLogin.position.position = userLogin.position.position;
-
+    this.UserLogin.position = userLogin.position;
     return this.UserLogin;
   }
 
@@ -39,6 +37,7 @@ export class AccountService {
     const userLogin = await (this.http
       .requestGet(`account/data`, accessToken)
       .toPromise() as Promise<IAccount>);
+      
     return this.setUserLogin(userLogin);
   }
 

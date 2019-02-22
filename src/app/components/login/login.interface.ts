@@ -8,7 +8,7 @@ export interface ILoginComponent {
 }
 
 export interface ILogin {
-    user: string;
+    username: string;
     password: string;
 }
 
@@ -22,7 +22,7 @@ export interface IAccount {
     lastname: string;
     cid: string;
     hoscode: string;
-    position? : IPositionItem;
+    position? : {position: string};
     flag_active?: boolean;
     date_created?: Date;
     date_updated?: Date;

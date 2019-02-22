@@ -22,7 +22,6 @@ export class ListplaceComponent implements OnInit ,OnDestroy,IAddItemComponent{
   form: FormGroup;
 
   private subscr: Subscription;
-  private subscr2: Subscription;
 
   amphurs: IAmphurItem[];
   hospitals: IHospitalItem[];
@@ -47,7 +46,7 @@ export class ListplaceComponent implements OnInit ,OnDestroy,IAddItemComponent{
 
   ngOnDestroy(): void {
     this.subscr.unsubscribe();
-    this.subscr2.unsubscribe();
+
   }
 
   private initailCreateFormData() {
@@ -68,17 +67,6 @@ export class ListplaceComponent implements OnInit ,OnDestroy,IAddItemComponent{
         else {
           this.getHospitals(amphur);
           this.form.get('hospital').enable();
-        }
-      });
-
-
-      this.subscr2 =  this.form.get('hospital').valueChanges
-      .subscribe(hospital => {
-        if (hospital == '') {
-          console.log("Disble Button");
-        }
-        else {
-          console.log(hospital);
         }
       });
   }

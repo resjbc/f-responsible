@@ -10,14 +10,23 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  private address: string = 'http://localhost:3001/';
+  private address: string = 'http://localhost:3000/';
 
   //ส่งข้อมูลแบบ Get method
-  requestGet(url: string, params?: any, accessToken?: string) {
+  requestGet_Param(url: string, params?: any, accessToken?: string) {
     return this.http
       .get(`${this.address}${url}`, {
         headers: this.appendHeaders(accessToken),
         params:params
+      })
+      .pipe(catchError(err => this.handleError(err)));
+  }
+
+  //ส่งข้อมูลแบบ Get method
+  requestGet(url: string,  accessToken?: string) {
+    return this.http
+      .get(`${this.address}${url}`, {
+        headers: this.appendHeaders(accessToken)
       })
       .pipe(catchError(err => this.handleError(err)));
   }

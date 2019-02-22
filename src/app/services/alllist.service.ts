@@ -25,7 +25,7 @@ export class AlllistService {
 
   getHospitals(params){
     return this.http
-    .requestGet(`list/hospitals`,params)
+    .requestGet_Param(`list/hospitals`,params)
     .toPromise() as Promise<IHospitalItem[]>;
   }
 }

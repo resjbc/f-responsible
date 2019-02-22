@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IAuthSidebarComponent } from './auth-sidebar.interface';
-import { IAccount, ERoleAccount } from '../../../components/login/login.interface';
+import { IAccount, ERoleAccount, IPositionItem } from '../../../components/login/login.interface';
 import { AccountService } from '../../services/account.service';
 import { AuthenService } from '../../../services/authen.service';
 import { Router } from '@angular/router';
@@ -20,39 +20,43 @@ export class AuthSidebarComponent implements OnInit, IAuthSidebarComponent {
   Role: typeof ERoleAccount;
   AppURL = AppURL;
   AuthURL = AuthURL;
-  userLogin: IAccount // = {} as any;
+  userLogin: IAccount;
+  position: string;
 
   constructor(
     private account: AccountService,
     private authen: AuthenService,
     private alert: AlertService,
     private router: Router) {
-    //this.initailLoadUserlogin();
-    setTimeout(() => App.initialLoadPage(), 100);
+    this.initailLoadUserlogin();
+    //setTimeout(() => App.initialLoadPage(), 100);
   }
 
   ngOnInit() {
-
+   
   }
 
 
 
   private initailLoadUserlogin() {
-
+    
     this.userLogin = this.account.UserLogin;
-    if (this.userLogin.id_user) return setTimeout(() => App.initialLoadPage(), 100);
+    console.log(this.account.UserLogin.position)
+    //this.position = this.account.UserLogin.position.position;
+    if (this.userLogin.id_user) return setTimeout(() => App.initialLoadPage(), 50);
 
     this.account
       .getUserLogin(this.authen.getAuthenticated())
       .then(userLogin_ => {
         this.userLogin = userLogin_;
+        this.position = this.userLogin.position.position;
         //โหลดข้อมูล Script สำหรับ sidebar
         setTimeout(() => App.initialLoadPage(), 100);
       })
       .catch(err => {
         this.alert.notify(err.Message);
-        this.authen.clearAuthenticated();
-        this.router.navigate(['/', this.AppURL.Login]);
+        //this.authen.clearAuthenticated();
+        //this.router.navigate(['/', this.AppURL.Login]);
       });
   }
 
