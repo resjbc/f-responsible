@@ -22,12 +22,13 @@ export interface IAccount {
     lastname: string;
     cid: string;
     hoscode: string;
-    position? : {position: string};
+    position?: { position: string };
     flag_active?: boolean;
     date_created?: Date;
     date_updated?: Date;
     role?: number;
 }
+
 
 export interface IPositionItem {
     id_position?: number,

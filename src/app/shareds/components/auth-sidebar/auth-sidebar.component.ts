@@ -20,7 +20,7 @@ export class AuthSidebarComponent implements OnInit, IAuthSidebarComponent {
   Role: typeof ERoleAccount;
   AppURL = AppURL;
   AuthURL = AuthURL;
-  userLogin: IAccount;
+  userLogin : IAccount;
   position: string;
 
   constructor(
@@ -33,17 +33,17 @@ export class AuthSidebarComponent implements OnInit, IAuthSidebarComponent {
   }
 
   ngOnInit() {
-   
+
   }
 
 
 
   private initailLoadUserlogin() {
-    
+ 
     this.userLogin = this.account.UserLogin;
-    console.log(this.account.UserLogin.position)
+    //console.log(this.userLogin.position.position = "...")
     //this.position = this.account.UserLogin.position.position;
-    if (this.userLogin.id_user) return setTimeout(() => App.initialLoadPage(), 50);
+    if (this.userLogin.id_user) return setTimeout(() => App.initialLoadPage(), 100);
 
     this.account
       .getUserLogin(this.authen.getAuthenticated())
