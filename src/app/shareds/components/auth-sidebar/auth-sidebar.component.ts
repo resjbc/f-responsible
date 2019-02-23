@@ -55,8 +55,8 @@ export class AuthSidebarComponent implements OnInit, IAuthSidebarComponent {
       })
       .catch(err => {
         this.alert.notify(err.Message);
-        //this.authen.clearAuthenticated();
-        //this.router.navigate(['/', this.AppURL.Login]);
+        this.authen.clearAuthenticated();
+        this.router.navigate(['/', this.AppURL.Login]);
       });
   }
 

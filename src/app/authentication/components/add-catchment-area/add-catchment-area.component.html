@@ -1,19 +1,83 @@
 <app-auth-content>
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-      <p>Start a beautiful journey here</p>
+      <h1><i class="fa fa-file"></i> ค้นหาใบสั่งซื้อ</h1>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-      <li class="breadcrumb-item"><a href="#">Blank Page</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/', AppURL.Authen, AuthURL.SearchReceiptsCash]">ค้นหาใบสั่งซื้อตามหมายเลขใบเสร็จ</a></li>
     </ul>
   </div>
+
   <div class="row">
     <div class="col-md-12">
       <div class="tile">
-        <div class="tile-body">Create a beautiful dashboard</div>
+        <section class="invoice">
+          <form [formGroup]="form" (submit)="onAddCatchmemnt()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">อำเภอ</label>
+                  <select class="form-control" formControlName="amphur">
+                    <option value="" selected>เลือกอำเภอ</option>
+                    <option *ngFor="let amphur of amphurs" [value]="amphur.ampurcodefull">{{amphur.ampurname}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">ตำบล</label>
+                  <select class="form-control" formControlName="tambon">
+                    <option value="" selected>เลือกตำบล</option>
+                    <option *ngFor="let tambon of tambons" [value]="tambon.tamboncodefull">{{tambon.tambonname}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">หมู่บ้าน</label>
+                  <select class="form-control" formControlName="r_villagecodefull">
+                    <option value="" selected>เลือกหมู่บ้าน</option>
+                    <option *ngFor="let village of villages" [value]="village.villagecodefull" >{{village.villagename}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">งานที่รับผิดชอบ</label>
+                  <select class="form-control" formControlName="id_work" >
+                    <option value="" selected>เลือกงานที่รับผิดชอบ</option>
+                    <option *ngFor="let work of works" [value]="work.id_work" >{{work.work}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">ที่อยู่</label>
+                  <input type="text" formControlName="address" class="form-control">
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="form-group col-md-12 text-center">
+                <button class="btn btn-primary icon-btn"  type="submit"><i class="fa fa-search"></i>ค้นหา</button>
+              </div>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
   </div>
+
+ 
+
 </app-auth-content>

@@ -22,7 +22,7 @@ export interface IAccount {
     lastname: string;
     cid: string;
     hoscode: string;
-    position?: { position: string };
+    position?: IPositionItem;
     flag_active?: boolean;
     date_created?: Date;
     date_updated?: Date;
@@ -41,4 +41,10 @@ export enum ERoleAccount {
     Member = 1,
     Employee,
     Admin
+}
+
+export enum ERoleAccountTH {
+    สมาชิก = 1,
+    เจ้าหน้าที่,
+    แอดมิน
 }

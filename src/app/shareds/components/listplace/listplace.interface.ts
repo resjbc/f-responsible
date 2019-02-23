@@ -47,5 +47,11 @@ export interface IHospitalItem {
     provcode: string;
 }
 
+export interface IWorkItem {
+    id_work: number;
+    work: string;
+    changwatcode: boolean;
+}
+
 
 

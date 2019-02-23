@@ -1,123 +1,134 @@
 <app-auth-content>
-    <div class="app-title">
-      <div>
-        <h1><i class="fa fa-user"></i> ข้อมูลส่วนตัว</h1>
-      </div>
-      <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item"><a [routerLink]="['/', AppURL.Authen, AuthURL.Profile]">ข้อมูลส่วนตัว</a></li>
-      </ul>
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-user"></i> ข้อมูลส่วนตัว</h1>
     </div>
-  
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <div class="tile-body">
-              <div class="row">
-                  <div class="col-md-12 text-right">
-                      <p>
-                          <button type="button" (click) = "openModal(template)" class="btn btn-primary icon-btn">
-                            <i class="fa fa-key"></i> เปลี่ยนรหัสผ่าน
-                          </button>
-                        </p>
-                  </div>
-              </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/', AppURL.Authen, AuthURL.ProfileComponent]">ข้อมูลส่วนตัว</a></li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <div class="tile-body">
             <div class="row">
-              <div class="col-md-12">
-                <form >
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="">ชื่อ</label>
-                            <input type="text"  class="form-control">
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="">นามสกุล</label>
-                            <input type="text"  class="form-control">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="">เลขบัตรประชาชน</label>
-                            <input type="type"  class="form-control">
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="">เบอร์โทรศัพท์</label>
-                            <input type="text"  class="form-control">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm">
-                          <div class="form-group">
-                            <label for="">สิทธิการใช้งาน</label>
-                            <!--<input type="text" [value] = "getRoleName(userLogin.role) " class="form-control" readonly>-->
-                          </div>
-                        </div>
-  
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <div class="form-group">
-                            <label for="">ที่อยู่</label>
-                            <textarea rows="5" type="text"  class="form-control"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <br />
-                      <div class="row">
-                        <div class="col-md">
-                         
-                        </div>
-                        <div class="col-md">
-                          
-                        </div>
-                      </div>
-  
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md"><br/></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md">
-                        <div class='form-group text-right' >
-                            <button class="btn btn-danger icon-btn " (click)="onUpdatePerson()" type="button">บันทึก</button>
-                          </div>
-                    </div>
-                    <div class="col-md">
-                        <div class='form-group text-left' >
-                            <button class="btn btn-secondary icon-btn " (click)="onResetForm()" type="button">รีเซ็ตเป็นค่าเริ่มต้น</button>
-                          </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                <div class="col-md-12 text-right">
+                    <p>
+                        <button type="button" (click) = "openModal(template2)" class="btn btn-primary icon-btn">
+                          <i class="fa fa-key"></i> เปลี่ยนรหัสผ่าน
+                        </button>
+                      </p>
+                </div>
             </div>
-  
-  
-            <div class="row">
-              <div class="col-md-12">
-  
-                <p></p>
-                <p></p>
-                <p></p>
-              </div>
+          <div class="row">
+            <div class="col-md-12">
+              <form [formGroup]="form">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">ชื่อ</label>
+                          <input type="text" formControlName="firstname" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">นามสกุล</label>
+                          <input type="text" formControlName="lastname" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">หมายเลขบัตรประชาชน</label>
+                          <input type="type" formControlName="cid" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">ตำแหน่ง</label>
+                          <select class="form-control" formControlName="id_position">
+                            <option value="" selected>เลือกตำแหน่ง</option>
+                            <option *ngFor="let position of positions" [value]="position.id_position">{{position.position}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm">
+                        <div class="form-group">
+                          <label for="">สิทธิการใช้งาน</label>
+                          <input type="text" [value] = "getRoleName(userLogin.role) " class="form-control" readonly>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label for="">สถานบริการ</label>
+                          <input type="text" formControlName="hoscode" (click)="openModal(template)" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="col-md">
+                       
+                      </div>
+                      <div class="col-md">
+                        
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md"><br/></div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                      <div class='form-group text-right' >
+                          <button class="btn btn-danger icon-btn " (click)="onUpdatePerson()" type="button">บันทึก</button>
+                        </div>
+                  </div>
+                  <div class="col-md">
+                      <div class='form-group text-left' >
+                          <button class="btn btn-secondary icon-btn " (click)="onResetForm()" type="button">รีเซ็ตเป็นค่าเริ่มต้น</button>
+                        </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <p></p>
+              <p></p>
+              <p></p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
-  </app-auth-content>
-  
+  </div>
+
+</app-auth-content>
+
+
+<ng-template #template>
+  <app-listplace [modalRef]="modalRef" (hoscode)="resultItem($event)" ></app-listplace>
+</ng-template>
+
+<ng-template #template2>
+  <app-change-password [modalRef]="modalRef" ></app-change-password>
+</ng-template>

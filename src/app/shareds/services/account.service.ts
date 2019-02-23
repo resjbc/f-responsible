@@ -24,6 +24,7 @@ export class AccountService {
     this.UserLogin.role = userLogin.role;
     this.UserLogin.cid = userLogin.cid;
     this.UserLogin.position = userLogin.position;
+    this.UserLogin.hoscode = userLogin.hoscode;
     return this.UserLogin;
   }
 
@@ -53,10 +54,10 @@ export class AccountService {
 
 
   //แก้ไขข้อมูลส่วนตัว Update Progile
-  async onUpdateProfile(accessToken: string, model: IMember) {
+  async onUpdateProfile(accessToken: string, model: IAccount) {
 
     const user = await (this.http
-      .requestPost('api/member/profile', model, accessToken)
+      .requestPost('account/update-account', model, accessToken)
       .toPromise() as Promise<IAccount>);
     return this.setUserLogin(user);
 
