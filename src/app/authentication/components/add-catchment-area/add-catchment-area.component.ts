@@ -124,7 +124,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       )
       .catch(err =>
         this.authen.checkMessage(err));
-        //this.alert.notify(err.Message));
+    //this.alert.notify(err.Message));
   }
 
   getAmphurs() {
@@ -136,7 +136,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       )
       .catch(err =>
         this.authen.checkMessage(err));
-        //this.alert.notify(err.Message));
+    //this.alert.notify(err.Message));
   }
 
   getWorks() {
@@ -172,7 +172,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       )
       .catch(err =>
         this.authen.checkMessage(err));
-        //this.alert.notify(err.Message));
+    //this.alert.notify(err.Message));
   }
 
   disbleAll() {
@@ -187,10 +187,9 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     this.form.get('r_villagecodefull').reset("");
   }
 
-  get f() { return this.form.controls; }
+  // get f() { return this.form.controls; }
 
   onAddCatchmemnt() {
-
     this.form.patchValue({
       r_villagecode: (this.form.get('r_villagecodefull').value as string).substr(6, 7),
       r_id_user: this.account.UserLogin.id_user
@@ -201,14 +200,15 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     this.responsible = this.form.value;
 
     this.responsibleService.addResponsible(this.responsible)
-    .then(res => {
-      if(res) {
-        this.alert.notify("เพิ่มข้อมูลสำเร็จแล้ว", "info");
-      }
+      .then(res => {
+        if (res) {
+          this.alert.notify("เพิ่มข้อมูลสำเร็จแล้ว", "info");
+          
+        }
 
-    }).catch(err => {
-      this.authen.checkMessage(err);
-    });
+      }).catch(err => {
+        this.authen.checkMessage(err);
+      });
 
   }
 }
