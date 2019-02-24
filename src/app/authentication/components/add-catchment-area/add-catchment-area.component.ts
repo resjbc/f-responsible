@@ -1,3 +1,4 @@
+import { AuthenService } from 'src/app/services/authen.service';
 import { AccountService } from 'src/app/shareds/services/account.service';
 import { AlllistService } from 'src/app/services/alllist.service';
 import { AlertService } from './../../../shareds/services/alert.service';
@@ -9,6 +10,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { IResponsible } from './add-catchment-area.interface';
+import { Router } from '@angular/router';
+import { ResponsibleService } from '../../services/responsible.service';
 
 
 @Component({
@@ -44,7 +47,10 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     private builder: FormBuilder,
     private alert: AlertService,
     private addlist: AlllistService,
-    private account: AccountService
+    private account: AccountService,
+    private authen: AuthenService,
+    private responsibleService: ResponsibleService
+
   ) {
     this.initailCreateFormData();
   }
@@ -117,7 +123,8 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       }
       )
       .catch(err =>
-        this.alert.notify(err.Message));
+        this.authen.checkMessage(err));
+        //this.alert.notify(err.Message));
   }
 
   getAmphurs() {
@@ -128,7 +135,8 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
         this.amphurs = amphurs
       )
       .catch(err =>
-        this.alert.notify(err.Message));
+        this.authen.checkMessage(err));
+        //this.alert.notify(err.Message));
   }
 
   getWorks() {
@@ -137,8 +145,10 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       .then(works =>
         this.works = works
       )
-      .catch(err =>
-        this.alert.notify(err.Message));
+      .catch(err => {
+        //this.alert.notify(err.Message);
+        this.authen.checkMessage(err);
+      });
   }
 
 
@@ -161,7 +171,8 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       }
       )
       .catch(err =>
-        this.alert.notify(err.Message));
+        this.authen.checkMessage(err));
+        //this.alert.notify(err.Message));
   }
 
   disbleAll() {
@@ -182,42 +193,22 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
 
     this.form.patchValue({
       r_villagecode: (this.form.get('r_villagecodefull').value as string).substr(6, 7),
-      r_id_user:this.account.UserLogin.id_user
+      r_id_user: this.account.UserLogin.id_user
     });
 
     if (this.form.invalid) return this.alert.someting_wrong();
 
     this.responsible = this.form.value;
 
-    console.log(this.responsible)
-
-
-    /*this.receiptService.findReceiptCash(this.receipt_cash,this.authen.getAuthenticated()).then(receipts => {
-      if (receipts.length <= 0) {
-        //this.dataSource = null;
-        return this.alert.notify("ไม่พบข้อมูล");
+    this.responsibleService.addResponsible(this.responsible)
+    .then(res => {
+      if(res) {
+        this.alert.notify("เพิ่มข้อมูลสำเร็จแล้ว", "info");
       }
 
-      this.dataSource = new MatTableDataSource(receipts);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.dataSource.filterPredicate = (data, filter: string) => {
-        const accumulator = (currentTerm, key) => {
-          return this.nestedFilterCheck(currentTerm, data, key);
-        };
-        const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
-        // Transform the filter by converting it to lowercase and removing whitespace.
-        const transformedFilter = filter.trim().toLowerCase();
-        return dataStr.indexOf(transformedFilter) !== -1;
-      };
-
     }).catch(err => {
-      this.alert.notify(err.Message);
-      this.dataSource = null;
-    });*/
+      this.authen.checkMessage(err);
+    });
+
   }
-
-
-
-
 }
