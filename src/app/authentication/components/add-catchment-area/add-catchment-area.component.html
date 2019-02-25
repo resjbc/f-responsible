@@ -68,9 +68,19 @@
             </div>
             <br />
             <div class="row">
-              <div class="form-group col-md-12 text-center">
-                <button class="btn btn-primary icon-btn"  type="submit"><i class="fa fa-plus"></i>เพิ่ม</button>
+              <div class="form-group col-md-2"></div>
+              <div class="form-group col-md-2"></div>
+              <div class="form-group col-md-2">
+                <button class="btn btn-info icon-btn form-control" *ngIf="!flagEdit" type="submit"><i class="fa fa-plus"></i>เพิ่ม
+                  </button>
+                <button class="btn btn-danger icon-btn form-control " *ngIf="flagEdit" (click)="onUpdateAct()" type="button">บันทึก</button>
               </div>
+              <div class="form-group col-md-2">
+                <button class="btn btn-secondary icon-btn  form-control" *ngIf="!flagEdit" (click)="onResetForm()" type="button">รีเซ็ต</button>
+                <button class="btn btn-secondary icon-btn  form-control" *ngIf="flagEdit" (click)="onClearForm()" type="button">ยกเลิก</button>
+              </div>
+              <div class="form-group col-md-2"></div>
+              <div class="form-group col-md-2"></div>
             </div>
           </form>
         </section>
@@ -134,7 +144,7 @@
   
                       <!-- Edit Column -->
                       <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <th mat-header-cell *matHeaderCellDef ></th>
                         <td mat-cell *matCellDef="let row" class='text-right'>
                           <button type="button" (click)="onEdit(row)" class="btn btn-success btn-md">แก้ไข</button>
                         </td>
@@ -142,7 +152,7 @@
                       </ng-container>
                       <!-- Delete Column -->
                       <ng-container matColumnDef="delete">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <th mat-header-cell *matHeaderCellDef ></th>
                         <td mat-cell *matCellDef="let row" class='text-left'>
                           <button type="button" (click)="onDelete(row)" class="btn btn-danger btn-md">ลบ</button>
                         </td>

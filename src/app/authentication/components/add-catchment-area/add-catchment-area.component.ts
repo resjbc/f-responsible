@@ -33,8 +33,11 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   responsible: IResponsible;
   MyResponsible: IResponsible[];
 
+
   private subscr: Subscription;
   private subscr2: Subscription;
+
+  flagEdit: boolean = false;
 
 
 
@@ -60,7 +63,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     this.onChanges();
     this.getAmphurs();
     this.getWorks();
-    setTimeout(() => this.MyResposible(), 100);
+    setTimeout(() => this.MyResposible(), 1000);
 
   }
 
@@ -87,6 +90,19 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  nestedFilterCheck(search, data, key) {
+    if (typeof data[key] === 'object') {
+      for (const k in data[key]) {
+        if (data[key][k] !== null) {
+          search = this.nestedFilterCheck(search, data[key], k);
+        }
+      }
+    } else {
+      search += data[key];
+    }
+    return search;
   }
 
   onChanges() {
@@ -223,9 +239,19 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     this.responsibleService.getResponsible(this.account.UserLogin.id_user)
       .then(res => {
         if (res) {
-          this.dataSource = new MatTableDataSource(res);
+          this.MyResponsible = res;
+          this.dataSource = new MatTableDataSource(this.MyResponsible);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          this.dataSource.filterPredicate = (data, filter: string) => {
+            const accumulator = (currentTerm, key) => {
+              return this.nestedFilterCheck(currentTerm, data, key);
+            };
+            const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+            // Transform the filter by converting it to lowercase and removing whitespace.
+            const transformedFilter = filter.trim().toLowerCase();
+            return dataStr.indexOf(transformedFilter) !== -1;
+          };
           //console.log(this.MyResponsible);
         }
 
@@ -234,4 +260,51 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
         this.dataSource = null;
       });
   }
+
+  onEdit(responsible: IResponsible) {
+    this.form.patchValue({
+      amphur: responsible.r_villagecodefull.substr(0, 4),
+      tambon: responsible.r_villagecodefull.substr(0, 6),
+      r_villagecodefull: responsible.r_villagecodefull,
+      r_villagecode: responsible.r_villagecode,
+      id_work: responsible.id_work.toString(),
+      r_id_user: this.account.UserLogin.id_user,
+      address: responsible.address
+    });
+    this.flagEdit = true;
+  }
+
+  onDelete(responsible: IResponsible) {
+    /* this.alert.confirm(`ต้องการลบ พรบ ${act.description} ใช่หรือไม่`)
+       .then(status => {
+         if (status)
+           this.act_type_list.removeAct(act.id_act,this.authen.getAuthenticated())
+             .then(() => {
+               this.loadActs();
+               this.onClearForm();
+             }).catch(err => this.alert.notify(err.Message));
+       })*/
+  }
+
+  onClearForm() {
+    //this.disbleAll();
+    this.flagEdit = false;
+  }
+
+
+  onResetForm() {
+    this.form.setValue({
+      amphur: "",
+      tambon: "",
+      r_villagecodefull: "",
+      r_villagecode: "",
+      id_work: "",
+      r_id_user: this.account.UserLogin.id_user,
+      address: ""
+    });
+    //this.disbleAll();
+    this.flagEdit = false;
+  }
+
 }
+
