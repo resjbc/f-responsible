@@ -19,4 +19,10 @@ export class ResponsibleService {
       .toPromise() as Promise<IResponsible>;
   }
 
+  getResponsible(id_user) {
+    return this.http
+      .requestGet(`responsible/${id_user}`, this.authen.getAuthenticated())
+      .toPromise() as Promise<IResponsible[]>;
+  }
+
 }

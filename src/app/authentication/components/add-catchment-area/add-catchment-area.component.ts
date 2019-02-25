@@ -31,14 +31,15 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   works: IWorkItem[];
 
   responsible: IResponsible;
+  MyResponsible: IResponsible[];
 
   private subscr: Subscription;
   private subscr2: Subscription;
 
 
 
-  displayedColumns: string[] = ['id_reference', 'date_created', 'cid', 'firstname', 'lastname', 'id_receipt_cash', 'id_receipt_cash_number', 'print'];
-  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['id_responsible', 'ampurname', 'tambonname', 'villagename', 'work', 'address', 'edit', 'delete'];
+  dataSource: MatTableDataSource<IResponsible>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -59,15 +60,13 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     this.onChanges();
     this.getAmphurs();
     this.getWorks();
+    setTimeout(() => this.MyResposible(), 100);
 
   }
 
   ngOnDestroy(): void {
     this.subscr.unsubscribe();
     this.subscr2.unsubscribe();
-
-
-
   }
 
   private initailCreateFormData() {
@@ -80,6 +79,14 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       r_id_user: ['', Validators.required],
       address: [''],
     });
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   onChanges() {
@@ -203,12 +210,28 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       .then(res => {
         if (res) {
           this.alert.notify("เพิ่มข้อมูลสำเร็จแล้ว", "info");
-          
+          this.MyResposible();
         }
 
       }).catch(err => {
         this.authen.checkMessage(err);
       });
 
+  }
+
+  MyResposible() {
+    this.responsibleService.getResponsible(this.account.UserLogin.id_user)
+      .then(res => {
+        if (res) {
+          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          //console.log(this.MyResponsible);
+        }
+
+      }).catch(err => {
+        this.authen.checkMessage(err);
+        this.dataSource = null;
+      });
   }
 }
