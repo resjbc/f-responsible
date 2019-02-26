@@ -25,4 +25,16 @@ export class ResponsibleService {
       .toPromise() as Promise<IResponsible[]>;
   }
 
+  updateResponsible(body) {
+    return this.http
+      .requestPut(`responsible`, body ,this.authen.getAuthenticated())
+      .toPromise() as Promise<IResponsible>;
+  }
+
+  deleteResponsible(id_resposible) {
+    return this.http
+      .requestDelete(`responsible/${id_resposible}`, this.authen.getAuthenticated())
+      .toPromise() as Promise<IResponsible[]>;
+  }
+
 }

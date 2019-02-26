@@ -9,7 +9,7 @@ import { AuthURL } from '../../authentication.url';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { IResponsible } from './add-catchment-area.interface';
+import { IResponsible, IMyresponsible } from './add-catchment-area.interface';
 import { Router } from '@angular/router';
 import { ResponsibleService } from '../../services/responsible.service';
 
@@ -30,8 +30,8 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   villages: IVillageItem[];
   works: IWorkItem[];
 
-  responsible: IResponsible;
-  MyResponsible: IResponsible[];
+  responsible: IResponsible = {} as IResponsible;
+  MyResponsible: IMyresponsible[];
 
 
   private subscr: Subscription;
@@ -42,7 +42,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
 
 
   displayedColumns: string[] = ['id_responsible', 'ampurname', 'tambonname', 'villagename', 'work', 'address', 'edit', 'delete'];
-  dataSource: MatTableDataSource<IResponsible>;
+  dataSource: MatTableDataSource<IMyresponsible>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -81,6 +81,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       id_work: ['', Validators.required],
       r_id_user: ['', Validators.required],
       address: [''],
+      id_responsible:['']
     });
   }
 
@@ -208,6 +209,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   resetAll() {
     this.form.get('tambon').reset("");
     this.form.get('r_villagecodefull').reset("");
+    this.form.get('id_responsible').reset("");
   }
 
   // get f() { return this.form.controls; }
@@ -235,11 +237,41 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
 
   }
 
+  onUpdateResponsible(){
+    if (this.form.invalid) return this.alert.someting_wrong();
+    this.responsible = this.form.value;
+
+    console.log(this.form.value);
+    
+    /*this.responsibleService.updateResponsible(this.responsible)
+      .then(() => {
+        this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว", "info");
+        this.onClearForm()
+        this.MyResposible()
+      })
+      .catch(err =>  this.authen.checkMessage(err));*/
+  }
+
   MyResposible() {
     this.responsibleService.getResponsible(this.account.UserLogin.id_user)
       .then(res => {
         if (res) {
-          this.MyResponsible = res;
+        this.MyResponsible = res.map((res_: IResponsible) => {
+            return {
+              id_responsible: res_.id_responsible,
+              r_id_user: res_.r_id_user,
+              r_villagecode: res_.r_villagecode,
+              r_villagecodefull: res_.r_villagecodefull,
+              address: res_.address,
+              id_work: res_.id_work,
+              work: res_.work.work,
+              villagename: res_.village.villagename,
+              tambonname: res_.village.tambon.tambonname,
+              ampurname: res_.village.tambon.amphur.ampurname,
+              changwatname: res_.village.tambon.amphur.changwat.changwatname
+            }
+          });
+
           this.dataSource = new MatTableDataSource(this.MyResponsible);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -269,42 +301,30 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       r_villagecode: responsible.r_villagecode,
       id_work: responsible.id_work.toString(),
       r_id_user: this.account.UserLogin.id_user,
-      address: responsible.address
+      address: responsible.address,
+      id_responsible : responsible.id_responsible
     });
+
+    
+    
     this.flagEdit = true;
   }
 
   onDelete(responsible: IResponsible) {
-    /* this.alert.confirm(`ต้องการลบ พรบ ${act.description} ใช่หรือไม่`)
+     this.alert.confirm(`ต้องการลบงานที่รับผิดชอบนี้ใช่หรือไม่`)
        .then(status => {
          if (status)
-           this.act_type_list.removeAct(act.id_act,this.authen.getAuthenticated())
+           this.responsibleService.deleteResponsible(responsible.id_responsible)
              .then(() => {
-               this.loadActs();
-               this.onClearForm();
-             }).catch(err => this.alert.notify(err.Message));
-       })*/
+              this.MyResposible()
+             }).catch(err =>  this.authen.checkMessage(err));
+       })
   }
 
   onClearForm() {
     //this.disbleAll();
+    this.form.get('id_responsible').reset("");
     this.flagEdit = false;
   }
-
-
-  onResetForm() {
-    this.form.setValue({
-      amphur: "",
-      tambon: "",
-      r_villagecodefull: "",
-      r_villagecode: "",
-      id_work: "",
-      r_id_user: this.account.UserLogin.id_user,
-      address: ""
-    });
-    //this.disbleAll();
-    this.flagEdit = false;
-  }
-
 }
 

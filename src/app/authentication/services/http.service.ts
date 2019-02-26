@@ -50,9 +50,9 @@ export class HttpService {
   }
 
   //ส่งข้อมูลแบบ Put method
-  requestPut(url: string, accessToken?: string) {
+  requestPut(url: string, body: any, accessToken?: string) {
     return this.http
-      .put(`${this.address}${url}`, {
+      .put(`${this.address}${url}`, body,{
         headers: this.appendHeaders(accessToken)
       })
       .pipe(catchError(err => this.handleError(err)));
