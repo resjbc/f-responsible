@@ -243,13 +243,13 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
 
     console.log(this.form.value);
     
-    /*this.responsibleService.updateResponsible(this.responsible)
+    this.responsibleService.updateResponsible(this.responsible)
       .then(() => {
         this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว", "info");
         this.onClearForm()
         this.MyResposible()
       })
-      .catch(err =>  this.authen.checkMessage(err));*/
+      .catch(err =>  this.authen.checkMessage(err));
   }
 
   MyResposible() {
