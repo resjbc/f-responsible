@@ -1,19 +1,141 @@
 <app-auth-content>
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-      <p>Start a beautiful journey here</p>
+      <h1><i class="fa fa-map-marker "></i> เพิ่มผู้รับผิดชอบแต่ละพื้นที่</h1>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-      <li class="breadcrumb-item"><a href="#">Blank Page</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/', AppURL.Authen, AuthURL.AddCatchmentAreaComponent]">เพิ่มผู้รับผิดชอบแต่ละพื้นที่</a></li>
     </ul>
   </div>
+
   <div class="row">
     <div class="col-md-12">
       <div class="tile">
-        <div class="tile-body">SearchResponsiblesComponent</div>
+        <section class="invoice">
+          <form [formGroup]="form" (submit)="onAddCatchmemnt()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">อำเภอ</label>
+                  <select class="form-control" formControlName="amphur">
+                    <option value="" selected>เลือกอำเภอ</option>
+                    <option *ngFor="let amphur of amphurs" [value]="amphur.ampurcodefull">{{amphur.ampurname}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">ตำบล</label>
+                  <select class="form-control" formControlName="tambon">
+                    <option value="" selected>เลือกตำบล</option>
+                    <option *ngFor="let tambon of tambons" [value]="tambon.tamboncodefull">{{tambon.tambonname}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">หมู่บ้าน</label>
+                  <select class="form-control" formControlName="r_villagecodefull">
+                    <option value="" selected>เลือกหมู่บ้าน</option>
+                    <option *ngFor="let village of villages" [value]="village.villagecodefull" >{{village.villagename}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+        
+          </form>
+        </section>
       </div>
     </div>
   </div>
+
+  <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <div class="tile-body">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="ค้นหา">
+                </mat-form-field>
+  
+                <div class="mat-elevation-z8">
+                  <div class="col-12 table-responsive">
+                    <table class="table-hover" mat-table [dataSource]="dataSource" matSort>
+  
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+  
+                      <!-- Id Responsible Column -->
+                      <ng-container matColumnDef="id_responsible">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ลำดับ </th>
+                        <td mat-cell *matCellDef="let row; let i = index;"> {{i+1}} </td>
+                      </ng-container>
+  
+                      <!--Ampurname  Column -->
+                      <ng-container matColumnDef="ampurname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> อำเภอ</th>
+                        <td mat-cell *matCellDef="let row"> {{row.ampurname}} </td>
+                      </ng-container>
+  
+                      <!--Tambonname  Column -->
+                      <ng-container matColumnDef="tambonname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ตำบล</th>
+                        <td mat-cell *matCellDef="let row"> {{row.tambonname}} </td>
+                      </ng-container>
+  
+                      <!--Villagename  Column -->
+                      <ng-container matColumnDef="villagename">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> หมู่บ้าน</th>
+                        <td mat-cell *matCellDef="let row"> {{row.villagename}} </td>
+                      </ng-container>
+  
+                      <!--Work  Column -->
+                      <ng-container matColumnDef="work">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> งานที่รับผิดชอบ</th>
+                        <td mat-cell *matCellDef="let row"> {{row.work}} </td>
+                      </ng-container>
+  
+                      <!--Address  Column -->
+                      <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ทีอยู่</th>
+                        <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+                      </ng-container>
+  
+                      <!-- Edit Column -->
+                      <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef ></th>
+                        <td mat-cell *matCellDef="let row" class='text-right'>
+                          <button type="button" (click)="onEdit(row)" class="btn btn-success btn-md">แก้ไข</button>
+                        </td>
+  
+                      </ng-container>
+                      <!-- Delete Column -->
+                      <ng-container matColumnDef="delete">
+                        <th mat-header-cell *matHeaderCellDef ></th>
+                        <td mat-cell *matCellDef="let row" class='text-left'>
+                          <button type="button" (click)="onDelete(row)" class="btn btn-danger btn-md">ลบ</button>
+                        </td>
+                      </ng-container>
+  
+  
+  
+                    </table>
+                  </div>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
 </app-auth-content>
