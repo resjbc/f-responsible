@@ -37,4 +37,10 @@ export class ResponsibleService {
       .toPromise() as Promise<IResponsible[]>;
   }
 
+  getSearchResponsible(codefull){
+    return this.http
+    .requestGet(`responsible/search/${codefull}`, this.authen.getAuthenticated())
+    .toPromise() as Promise<any>;
+  }
+
 }

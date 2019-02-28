@@ -13,7 +13,7 @@
     <div class="col-md-12">
       <div class="tile">
         <section class="invoice">
-          <form [formGroup]="form" (submit)="onAddCatchmemnt()">
+          <form [formGroup]="form">
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
@@ -47,7 +47,7 @@
                 </div>
               </div>
             </div>
-        
+  
           </form>
         </section>
       </div>
@@ -55,87 +55,87 @@
   </div>
 
   <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <div class="tile-body">
-            <div class="row">
-              <div class="col-md-12">
-                <mat-form-field>
-                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="ค้นหา">
-                </mat-form-field>
-  
-                <div class="mat-elevation-z8">
-                  <div class="col-12 table-responsive">
-                    <table class="table-hover" mat-table [dataSource]="dataSource" matSort>
-  
-                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-  
-                      <!-- Id Responsible Column -->
-                      <ng-container matColumnDef="id_responsible">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ลำดับ </th>
-                        <td mat-cell *matCellDef="let row; let i = index;"> {{i+1}} </td>
-                      </ng-container>
-  
-                      <!--Ampurname  Column -->
-                      <ng-container matColumnDef="ampurname">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> อำเภอ</th>
-                        <td mat-cell *matCellDef="let row"> {{row.ampurname}} </td>
-                      </ng-container>
-  
-                      <!--Tambonname  Column -->
-                      <ng-container matColumnDef="tambonname">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ตำบล</th>
-                        <td mat-cell *matCellDef="let row"> {{row.tambonname}} </td>
-                      </ng-container>
-  
-                      <!--Villagename  Column -->
-                      <ng-container matColumnDef="villagename">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> หมู่บ้าน</th>
-                        <td mat-cell *matCellDef="let row"> {{row.villagename}} </td>
-                      </ng-container>
-  
-                      <!--Work  Column -->
-                      <ng-container matColumnDef="work">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> งานที่รับผิดชอบ</th>
-                        <td mat-cell *matCellDef="let row"> {{row.work}} </td>
-                      </ng-container>
-  
-                      <!--Address  Column -->
-                      <ng-container matColumnDef="address">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ทีอยู่</th>
-                        <td mat-cell *matCellDef="let row"> {{row.address}} </td>
-                      </ng-container>
-  
-                      <!-- Edit Column -->
-                      <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef ></th>
-                        <td mat-cell *matCellDef="let row" class='text-right'>
-                          <button type="button" (click)="onEdit(row)" class="btn btn-success btn-md">แก้ไข</button>
-                        </td>
-  
-                      </ng-container>
-                      <!-- Delete Column -->
-                      <ng-container matColumnDef="delete">
-                        <th mat-header-cell *matHeaderCellDef ></th>
-                        <td mat-cell *matCellDef="let row" class='text-left'>
-                          <button type="button" (click)="onDelete(row)" class="btn btn-danger btn-md">ลบ</button>
-                        </td>
-                      </ng-container>
-  
-  
-  
-                    </table>
-                  </div>
-                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <div class="col-md-12">
+      <div class="tile">
+        <div class="tile-body">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="ค้นหา">
+              </mat-form-field>
+
+              <div class="mat-elevation-z8">
+                <div class="col-12 table-responsive">
+                  <table class="table-hover" mat-table [dataSource]="dataSource" matSort>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+                    <!-- Id Responsible Column -->
+                    <ng-container matColumnDef="id_responsible">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> ลำดับ </th>
+                      <td mat-cell *matCellDef="let row; let i = index;"> {{i+1}} </td>
+                    </ng-container>
+
+                    <!--Responsible  Column -->
+                    <ng-container matColumnDef="responsible">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> ผู้รับผิดชอบ</th>
+                      <td mat-cell *matCellDef="let row"> {{row.firstname}} {{row.lastname}} </td>
+                    </ng-container>
+
+                    <!--Ampurname  Column -->
+                    <ng-container matColumnDef="ampurname">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> อำเภอ</th>
+                      <td mat-cell *matCellDef="let row"> {{row.ampurname}} </td>
+                    </ng-container>
+
+                    <!--Tambonname  Column -->
+                    <ng-container matColumnDef="tambonname">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> ตำบล</th>
+                      <td mat-cell *matCellDef="let row"> {{row.tambonname}} </td>
+                    </ng-container>
+
+                    <!--Villagename  Column -->
+                    <ng-container matColumnDef="villagename">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> หมู่บ้าน</th>
+                      <td mat-cell *matCellDef="let row"> {{row.villagename}} </td>
+                    </ng-container>
+
+                    <!--Work  Column -->
+                    <ng-container matColumnDef="work">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> งานที่รับผิดชอบ</th>
+                      <td mat-cell *matCellDef="let row"> {{row.work}} </td>
+                    </ng-container>
+
+                    <!--Address  Column -->
+                    <ng-container matColumnDef="address">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> ทีอยู่</th>
+                      <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+                    </ng-container>
+
+                    <!-- Edit Column -->
+                    <ng-container matColumnDef="detail">
+                      <th mat-header-cell *matHeaderCellDef ></th>
+                      <td mat-cell *matCellDef="let row" class='text-right'>
+                        <button type="button" (click)="onEdit(row)" class="btn btn-success btn-md">ดูรายละเอียด</button>
+                      </td>
+
+                    </ng-container>
+                  
+
+
+
+                  </table>
                 </div>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   
 
 </app-auth-content>
