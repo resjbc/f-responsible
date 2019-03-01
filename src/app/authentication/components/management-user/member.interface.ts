@@ -13,6 +13,7 @@ export interface IMember {
     flag_active?: boolean;
     date_created?: Date;
     date_updated?: Date;
+    role_string?: string;
     role?: number;
     
 }

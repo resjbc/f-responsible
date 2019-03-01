@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
       });
 
 
-    }).catch(err => this.alert.notify(err.Message));
+    }).catch(err => this.authen.checkMessage(err));
 
   }
 
@@ -89,7 +89,7 @@ export class ProfileComponent implements OnInit {
           .then(() => this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว", "info"))
           .catch(err => this.alert.notify(err.Message))
       )
-      .catch(err => this.alert.notify(err.Message));
+      .catch(err => this.authen.checkMessage(err));
   }
 
   openModal(template: TemplateRef<any>) {
@@ -104,7 +104,7 @@ export class ProfileComponent implements OnInit {
         this.positions = positions
       )
       .catch(err =>
-        this.alert.notify(err.Message));
+        this.authen.checkMessage(err));
   }
 
   getRoleName(role: ERoleAccount) {

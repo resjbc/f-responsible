@@ -28,7 +28,7 @@ export class SearchResponsibleDetailComponent implements OnInit {
       position: [this.responsibles.position, Validators.required],
       hospital: [this.responsibles.hosname, Validators.required],
       work: [this.responsibles.work, Validators.required],
-      address: [`บ้านเลขที่ ${this.responsibles.address} หมู่บ้าน ${this.responsibles.villagename} ตำบล ${this.responsibles.tambonname} อำเภอ ${this.responsibles.ampurname} จังหวัด ${this.responsibles.changwatname} 
+      address: [`${this.responsibles.address} หมู่บ้าน ${this.responsibles.villagename} ตำบล ${this.responsibles.tambonname} อำเภอ ${this.responsibles.ampurname} จังหวัด ${this.responsibles.changwatname} 
       `, Validators.required]
     });
    // console.log(this.responsibles)

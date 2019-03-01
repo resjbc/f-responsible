@@ -17,7 +17,7 @@
         <div class="tile-body">
           <div class="row">
             <div class="col-md-12">
-              <form [formGroup]="form" (submit)="onAddUser()">
+              <form [formGroup]="form" (submit)="onAddMember()">
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="row">
@@ -43,8 +43,13 @@
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="">เบอร์โทร</label>
-                          <input type="text" formControlName="mobile" class="form-control">
+                          <label for="">ตำแหน่ง</label>
+                          <select class="form-control" formControlName="id_position">
+                            <option value="">เลือกตำแหน่ง</option>
+                            <option *ngFor="let position of positions" [value]="position.id_position">
+                              {{ position.position }}
+                            </option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -94,7 +99,7 @@
                           <button class="btn btn-info icon-btn form-control" type="submit"><i class="fa fa-user-plus"></i>เพิ่ม</button>
                         </div>
                         <div class='form-group text-right' *ngIf="flagEdit">
-                          <button class="btn btn-danger icon-btn form-control " (click)="onUpdateUser()" type="button">บันทึก</button>
+                          <button class="btn btn-danger icon-btn form-control " (click)="onUpdateMember()" type="button">บันทึก</button>
                         </div>
                       </div>
                       <div class="col-md">
@@ -161,12 +166,6 @@
                       <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>
                     </ng-container>
 
-                    <!-- MobilePhone Column -->
-                    <ng-container matColumnDef="mobile">
-                      <th class='text-left' mat-header-cell *matHeaderCellDef mat-sort-header> เบอร์โทรศัพท์ </th>
-                      <td class='text-left' mat-cell *matCellDef="let row"> {{row.mobile || '-'}} </td>
-                    </ng-container>
-
                     <!-- Access Column -->
                     <ng-container matColumnDef="role">
                       <th class='text-left' mat-header-cell *matHeaderCellDef mat-sort-header>สิทธิการใช้งาน</th>
@@ -192,7 +191,7 @@
                     </ng-container>
                   </table>
                 </div>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
               </div>
             </div>
           </div>
@@ -201,3 +200,8 @@
     </div>
   </div>
 </app-auth-content>
+
+
+<ng-template #template>
+  <app-listplace [modalRef]="modalRef" (hoscode)="resultItem($event)" ></app-listplace>
+</ng-template>

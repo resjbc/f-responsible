@@ -1,5 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { AlllistService } from 'src/app/services/alllist.service';
+import { ERoleAccountTH, IPositionItem } from './../../../components/login/login.interface';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IMember } from './member.interface';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { AppURL } from '../../../app.url';
@@ -7,6 +10,7 @@ import { AuthURL } from '../../authentication.url';
 import { AlertService } from '../../../shareds/services/alert.service';
 import { AuthenService } from '../../../services/authen.service';
 import { MemberService } from '../../services/member.service';
+import { ERoleAccount } from 'src/app/components/login/login.interface';
 
 @Component({
   selector: 'app-management-user',
@@ -17,11 +21,12 @@ export class ManagementUserComponent implements OnInit {
 
 
   form: FormGroup;
-  person: IMember = null;
+  member: IMember = null;
   flagEdit: boolean = false;
+  modalRef: BsModalRef;
 
 
-  displayedColumns: string[] = ['cid', 'firstname', 'lastname', 'mobile', 'edit', 'delete'];
+  displayedColumns: string[] = ['cid', 'firstname', 'lastname', 'role', 'edit', 'delete'];
   dataSource: MatTableDataSource<IMember>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,20 +35,29 @@ export class ManagementUserComponent implements OnInit {
   AppURL = AppURL;
   AuthURL = AuthURL;
 
+  roleItem: ERoleAccountTH[] = [
+    ERoleAccountTH.สมาชิก,
+    ERoleAccountTH.เจ้าหน้าที่,
+    ERoleAccountTH.แอดมิน
+  ];
 
+  positions: IPositionItem[];
 
   constructor(
-    private personService: MemberService,
+    private memberService: MemberService,
     private alert: AlertService,
     private build: FormBuilder,
-    private authen: AuthenService
+    private authen: AuthenService,
+    private alllists: AlllistService,
+    private modalService: BsModalService
   ) {
 
   }
 
   ngOnInit() {
-    this.loadPersons();
     this.initialCreateFormData();
+    this.loadMembers();
+    this.getListPositions();
   }
 
   onSubmit() {
@@ -54,22 +68,36 @@ export class ManagementUserComponent implements OnInit {
       firstname: ['', [Validators.required,Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
       lastname: ['', [Validators.required,Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
       cid: ['', [Validators.required,Validators.pattern("[0-9]{13,13}")]],
-      address: [''],
-      mobile: ['',[Validators.pattern("[0-9]{8,10}")]],
+      id_position: ['',Validators.required],
+      hoscode: ['',[Validators.pattern("[0-9]{5,5}")]],
       username: [''],
       password: [''],
-      role: [1],
-      id_person: [null]
+      role: ["",Validators.required],
+      id_user: [null]
     });
   }
 
-  loadPersons() {
-    this.personService.getPersons(this.authen.getAuthenticated()).then(person => {
-      this.dataSource = new MatTableDataSource(person);
+  getListPositions() {
+    this.alllists
+      .getPositions()
+      .then(positions =>
+        this.positions = positions
+      )
+      .catch(err =>
+        this.authen.checkMessage(err));
+  }
+
+  loadMembers() {
+    this.memberService.getMembers().then(members => {
+      members = members.map( member => {
+        member.role_string = ERoleAccountTH[member.role].toString();
+        return member;
+      })
+      this.dataSource = new MatTableDataSource(members);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
-      .catch(err => this.alert.notify(err.Message));
+      .catch(err => this.authen.checkMessage(err));
   }
 
   applyFilter(filterValue: string) {
@@ -80,53 +108,68 @@ export class ManagementUserComponent implements OnInit {
     }
   }
 
-  onEdit(person) {
-    this.form.patchValue(person);
+  onEdit(member) {
+    this.form.patchValue(member);
     this.flagEdit = true;
   }
 
-  onDelete(person) {
-    this.alert.confirm(`ต้องการลบคุณ ${person.firstname} ${person.lastname} ใช่หรือไม่`)
+  onDelete(member) {
+    this.alert.confirm(`ต้องการลบคุณ ${member.firstname} ${member.lastname} ใช่หรือไม่`)
       .then(status => {
         if (status)
-          this.personService.removePerson(person.id_person,this.authen.getAuthenticated())
+          this.memberService.removeMember(member.id_user)
             .then(() => {
-              this.loadPersons();
+              this.loadMembers();
               this.onClearForm();
-            }).catch(err => this.alert.notify(err.Message));
+            }).catch(err => this.authen.checkMessage(err));
       })
   }
 
-  onAddPerson() {
+  onAddMember() {
     if (this.form.invalid) return this.alert.someting_wrong();
-    this.person = this.form.value;
-    this.person.role = 1;
-    this.personService.addPerson(this.person,this.authen.getAuthenticated())
+    this.member = this.form.value;
+    this.member.role = 1;
+    this.memberService.addMember(this.member)
         .then(() => {
           this.alert.notify("เพิ่มผู้ประกอบการสำเร็จแล้ว","info");
           this.onClearForm();
-          this.loadPersons();
+          this.loadMembers();
         })
-        .catch(err => this.alert.notify(err.Message));
+        .catch(err => this.authen.checkMessage(err));
     
   }
 
-  onUpdatePerson() {
+  onUpdateMember() {
     if (this.form.invalid) return this.alert.someting_wrong();
-    this.person = this.form.value;
-    this.person.role = 1;
-    this.personService.addPerson(this.person,this.authen.getAuthenticated())
+    this.member = this.form.value;
+    //this.member.role = 1;
+    console.log(this.member)
+    this.memberService.updateMember(this.member)
         .then(() => {
           this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว","info");
           this.onClearForm()
-          this.loadPersons();
+          this.loadMembers();
         })
-        .catch(err => this.alert.notify(err.Message));
+        .catch(err => this.authen.checkMessage(err));
   }
 
   onClearForm() {
     this.form.reset();
+    this.form.get('id_position').setValue("");
+    this.form.get('role').setValue("");
     this.flagEdit = false;
   }
 
+  getRoleName(role: ERoleAccountTH) {
+    return ERoleAccountTH[role];
+  }
+
+  resultItem(hoscode: String) {
+    this.form.get('hoscode').setValue(hoscode);
+  }
+
+  openModal(template: TemplateRef<any>) {
+    //console.log(this);
+    this.modalRef = this.modalService.show(template);
+  }
 }

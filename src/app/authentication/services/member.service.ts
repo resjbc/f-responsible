@@ -1,3 +1,4 @@
+import { AuthenService } from 'src/app/services/authen.service';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { IMember } from '../components/management-user/member.interface';
@@ -8,35 +9,39 @@ import { IMember } from '../components/management-user/member.interface';
 export class MemberService {
 
   
-  constructor(private http: HttpService) { }
+  constructor(
+    private http: HttpService,
+    private authen: AuthenService
+    ) { }
 
-  getMember(pid,accessToken: string) {
-    return this.http
-               .requestGet(`person/${pid}`,accessToken)
-               .toPromise() as Promise<IMember>;
-  }
 
-  getMembers(accessToken: string) {
+  getMembers() {
     return this.http
-               .requestGet(`person/employee/`,accessToken)
+               .requestGet(`user/users`,this.authen.getAuthenticated())
                .toPromise() as Promise<IMember[]>;
   }
 
-  getMembers_forAdmin(accessToken: string) {
+  getMembers_forAdmin() {
     return this.http
-               .requestGet(`person/`,accessToken)
+               .requestGet(`person/`,this.authen.getAuthenticated())
                .toPromise() as Promise<IMember[]>;
   }
 
-  addMember(member,accessToken: string) {
+  addMember(member) {
     return this.http
-               .requestPost(`person/add`,member,accessToken)
+               .requestPost(`user`,member,this.authen.getAuthenticated())
                .toPromise() as Promise<IMember>;
   }
 
-  removeMember(member,accessToken: string) {
+  updateMember(member) {
     return this.http
-               .requestDelete(`person/${person}`,accessToken)
+               .requestPut(`user`,member,this.authen.getAuthenticated())
+               .toPromise() as Promise<any>;
+  }
+
+  removeMember(member) {
+    return this.http
+               .requestDelete(`user/${member}`,this.authen.getAuthenticated())
                .toPromise() as Promise<any>;
   }
 }
