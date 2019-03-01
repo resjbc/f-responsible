@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { AppURL } from '../../../app.url';
 import { AuthURL } from '../../authentication.url';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,6 +11,8 @@ import { AccountService } from '../../../shareds/services/account.service';
 import { AuthenService } from '../../../services/authen.service';
 import { ResponsibleService } from '../../services/responsible.service';
 import { ISearchresponsible } from './search-responsibles.interface';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ModaldataService } from '../../../../app/shareds/services/modaldata.service';
 
 @Component({
   selector: 'app-search-responsibles',
@@ -22,6 +24,7 @@ export class SearchResponsiblesComponent implements OnInit {
   AppURL = AppURL;
   AuthURL = AuthURL;
   form: FormGroup;
+  modalRef: BsModalRef;
 
   amphurs: IAmphurItem[];
   tambons: ITambonItem[];
@@ -38,7 +41,7 @@ export class SearchResponsiblesComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['id_responsible','responsible', 'ampurname', 'tambonname', 'villagename', 'work', 'address', 'detail'];
+  displayedColumns: string[] = ['id_responsible','responsible', 'position', 'work', 'detail'];
   dataSource: MatTableDataSource<ISearchresponsible>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -48,10 +51,10 @@ export class SearchResponsiblesComponent implements OnInit {
     private builder: FormBuilder,
     private alert: AlertService,
     private addlist: AlllistService,
-    private account: AccountService,
+    private modalService: BsModalService,
     private authen: AuthenService,
-    private responsibleService: ResponsibleService
-
+    private responsibleService: ResponsibleService,
+    private _modalService: ModaldataService 
   ) {
     this.initailCreateFormData();
   }
@@ -203,6 +206,7 @@ export class SearchResponsiblesComponent implements OnInit {
       .then(res => {
         if (res) {
           this.responsibles = res.map((res_) => {
+           
             return {
               address: res_.address,
               id_work: res_.id_work,
@@ -215,7 +219,7 @@ export class SearchResponsiblesComponent implements OnInit {
               villagename: res_.village.villagename,
               tambonname: res_.village.tambon.tambonname,
               ampurname: res_.village.tambon.amphur.ampurname,
-              changwatname: res_.village.tambon.ampur,
+              changwatname: res_.village.tambon.amphur.changwat.changwatname,
               work: res_.work.work
             }
           });
@@ -241,6 +245,11 @@ export class SearchResponsiblesComponent implements OnInit {
       });
   }
 
+  onShowDetail(template: TemplateRef<any>,responsibles: ISearchresponsible){
+    this._modalService.setData(responsibles)
+    this.modalRef = this.modalService.show(template);
+
+  }
 
 
 }

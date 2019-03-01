@@ -48,9 +48,9 @@ export interface IHospitalItem {
 }
 
 export interface IWorkItem {
-    id_work: number;
+    id_work?: number;
     work: string;
-    changwatcode: boolean;
+    active: boolean;
 }
 
 

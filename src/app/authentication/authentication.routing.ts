@@ -4,6 +4,7 @@ import { AddCatchmentAreaComponent } from './components/add-catchment-area/add-c
 import { SearchResponsiblesComponent } from './components/search-responsibles/search-responsibles.component';
 import { ManagementUserComponent } from './components/management-user/management-user.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AddHeadWorkComponent } from './components/add-head-work/add-head-work.component';
 
 const RouterList: Routes = [
     { path: '', redirectTo: AuthURL.AddCatchmentAreaComponent, pathMatch: 'full' },
@@ -22,6 +23,10 @@ const RouterList: Routes = [
     { 
         path: AuthURL.ProfileComponent, 
         component: ProfileComponent 
+    },
+    { 
+        path: AuthURL.AddHeadWorkComponent, 
+        component: AddHeadWorkComponent 
     },
 ];
 

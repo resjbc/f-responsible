@@ -51,4 +51,22 @@ export class AlllistService {
       .requestGet(`work`,this.authen.getAuthenticated())
       .toPromise() as Promise<IWorkItem[]>;
   }
+
+  addWorks(work: IWorkItem) {
+    return this.http
+      .requestPost(`work`,work,this.authen.getAuthenticated())
+      .toPromise() as Promise<any>;
+  }
+
+  updateWorks(work: IWorkItem) {
+    return this.http
+      .requestPut(`work`,work,this.authen.getAuthenticated())
+      .toPromise() as Promise<any>;
+  }
+
+  removeWork(id_work: string) {
+    return this.http
+      .requestDelete(`work/${id_work}`,this.authen.getAuthenticated())
+      .toPromise() as Promise<any>;
+  }
 }

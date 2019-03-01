@@ -11,18 +11,17 @@ table {
   td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
     padding-right: 5px;
   }
-
+  
   hr.style1{
     border-top: 3px solid #333;
   }
-
+  
   .mat-elevation-z8{
     box-shadow:none;
   }
-
+  
   .mat-header-cell{
     font-size: 14px;
     color:black;
     font-weight:800;
   }
-

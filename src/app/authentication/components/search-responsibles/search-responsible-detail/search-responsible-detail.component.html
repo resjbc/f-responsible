@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">รายละเอียด</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="form" (submit)="onSubmit()">
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-sm-10 offset-sm-1">
+        <div class="form-group">
+          <label for="">ผู้รับผิดชอบ</label>
+          <input formControlName="name" type="text" class="form-control" readonly >
+        </div>
+        <div class="form-group">
+          <label for="">ตำแหน่ง</label>
+          <input formControlName="position" type="text" class="form-control" readonly >
+        </div>
+        <div class="form-group">
+          <label for="">สถานบริการ</label>
+          <input formControlName="hospital" type="text" class="form-control" readonly >
+        </div>
+        <div class="form-group">
+          <label for="">งานที่รับผิดชอบ</label>
+          <input formControlName="work" type="text" class="form-control" readonly >
+        </div>
+        <div class="form-group">
+          <label for="">ที่อยู่ที่รับผิดชอบ</label>
+          <textarea rows="5" type="text" formControlName="address" class="form-control" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+  </div>
+</form>
