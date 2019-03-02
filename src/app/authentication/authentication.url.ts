@@ -3,5 +3,6 @@ export const AuthURL = {
     SearchResponsiblesComponent: 'search-responsibles',
     ManagementUserComponent: 'management-user',
     ProfileComponent:'profile',
-    AddHeadWorkComponent:'addwork',
+    AddHeadWorkComponent:'add-work',
+    AddPositionComponent:'add-position',
 };

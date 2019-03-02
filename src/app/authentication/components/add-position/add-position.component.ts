@@ -1,27 +1,27 @@
+import { AuthenService } from 'src/app/services/authen.service';
+import { AlertService } from './../../../shareds/services/alert.service';
+import { AlllistService } from 'src/app/services/alllist.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IWorkItem } from '../../../shareds/components/listplace/listplace.interface';
+import { IPositionItem } from 'src/app/components/login/login.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { AppURL } from '../../../app.url';
 import { AuthURL } from '../../authentication.url';
-import { AuthenService } from '../../../services/authen.service';
-import { AlertService } from '../../../shareds/services/alert.service';
-import { AlllistService } from '../../../services/alllist.service';
+import { AppURL } from '../../../app.url';
 
 @Component({
-  selector: 'app-add-head-work',
-  templateUrl: './add-head-work.component.html',
-  styleUrls: ['./add-head-work.component.css']
+  selector: 'app-add-position',
+  templateUrl: './add-position.component.html',
+  styleUrls: ['./add-position.component.css']
 })
-export class AddHeadWorkComponent implements OnInit {
+export class AddPositionComponent implements OnInit {
 
-  work: IWorkItem = null;
+  position: IPositionItem = null;
   form: FormGroup;
   flagEdit: boolean = false;
 
 
-  displayedColumns: string[] = ['id_work', 'work', 'edit', 'delete'];
-  dataSource: MatTableDataSource<IWorkItem>;
+  displayedColumns: string[] = ['id_position', 'position', 'edit', 'delete'];
+  dataSource: MatTableDataSource<IPositionItem>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -42,21 +42,21 @@ export class AddHeadWorkComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource();
-    this.loadWorks();
+    this.loadPositions();
     this.initialCreateFormData();
   }
 
 
   initialCreateFormData() {
     this.form = this.build.group({
-      work: ['', [Validators.required,Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
-      id_work: [null]
+      position: ['', [Validators.required,Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
+      id_position: [null]
     });
   }
 
-  loadWorks() {
-    this.addlistService.getWorks().then(works => {
-      this.dataSource = new MatTableDataSource(works);
+  loadPositions() {
+    this.addlistService.getPositions_auth().then(positions => {
+      this.dataSource = new MatTableDataSource(positions);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
@@ -74,45 +74,45 @@ export class AddHeadWorkComponent implements OnInit {
     }
   }
 
-  onEdit(work) {
-    this.form.patchValue(work);
+  onEdit(position) {
+    this.form.patchValue(position);
     this.flagEdit = true;
   }
 
-  onDelete(work) {
-    this.alert.confirm(`ต้องการลบงาน ${work.work} ใช่หรือไม่`)
+  onDelete(position) {
+    this.alert.confirm(`ต้องการลบตำแหน่ง ${position.position} ใช่หรือไม่`)
       .then(status => {
         if (status)
-          this.addlistService.removeWork(work.id_work)
+          this.addlistService.removePosition(position.id_position)
             .then(() => {
-              this.loadWorks();
+              this.loadPositions();
               this.onClearForm();
             }).catch(err => this.authen.checkMessage(err));
       })
   }
 
-  onAddWork() {
+  onAddPosition() {
     if (this.form.invalid ) return this.alert.someting_wrong();
-    this.work = this.form.value;
-    this.work.active = true;
-    this.addlistService.addWorks(this.work)
+    this.position = this.form.value;
+    this.position.active = true;
+    this.addlistService.addPositions(this.position)
       .then(() => {
-        this.alert.notify("เพิ่มหัวข้องานสำเร็จแล้ว", "info");
+        this.alert.notify("เพิ่มหัวข้อตำแหน่งสำเร็จแล้ว", "info");
         this.onClearForm()
-        this.loadWorks();
+        this.loadPositions();
       })
       .catch(err => this.authen.checkMessage(err));
 
   }
 
-  onUpdateWork() {
+  onUpdatePosition() {
     if (this.form.invalid) return this.alert.someting_wrong();
-    this.work = this.form.value;
-    this.addlistService.updateWorks(this.work)
+    this.position = this.form.value;
+    this.addlistService.updatePositions(this.position)
       .then(() => {
         this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว", "info");
         this.onClearForm()
-        this.loadWorks();
+        this.loadPositions();
       })
       .catch(err =>this.authen.checkMessage(err));
   }

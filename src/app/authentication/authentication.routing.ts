@@ -5,6 +5,7 @@ import { SearchResponsiblesComponent } from './components/search-responsibles/se
 import { ManagementUserComponent } from './components/management-user/management-user.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddHeadWorkComponent } from './components/add-head-work/add-head-work.component';
+import { AddPositionComponent } from './components/add-position/add-position.component';
 
 const RouterList: Routes = [
     { path: '', redirectTo: AuthURL.AddCatchmentAreaComponent, pathMatch: 'full' },
@@ -27,6 +28,10 @@ const RouterList: Routes = [
     { 
         path: AuthURL.AddHeadWorkComponent, 
         component: AddHeadWorkComponent 
+    },
+    { 
+        path: AuthURL.AddPositionComponent, 
+        component: AddPositionComponent 
     },
 ];
 

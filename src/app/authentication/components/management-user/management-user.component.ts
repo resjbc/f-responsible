@@ -79,7 +79,7 @@ export class ManagementUserComponent implements OnInit {
 
   getListPositions() {
     this.alllists
-      .getPositions()
+      .getPositions_auth()
       .then(positions =>
         this.positions = positions
       )

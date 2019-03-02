@@ -69,4 +69,30 @@ export class AlllistService {
       .requestDelete(`work/${id_work}`,this.authen.getAuthenticated())
       .toPromise() as Promise<any>;
   }
+
+  getPositions_auth() {
+    return this.http
+      .requestGet(`position`,this.authen.getAuthenticated())
+      .toPromise() as Promise<IPositionItem[]>;
+  }
+
+  addPositions(position: IPositionItem) {
+    return this.http
+      .requestPost(`position`,position,this.authen.getAuthenticated())
+      .toPromise() as Promise<any>;
+  }
+
+  updatePositions(position: IPositionItem) {
+    return this.http
+      .requestPut(`position`,position,this.authen.getAuthenticated())
+      .toPromise() as Promise<any>;
+  }
+
+  removePosition(id_position: string) {
+    return this.http
+      .requestDelete(`position/${id_position}`,this.authen.getAuthenticated())
+      .toPromise() as Promise<any>;
+  }
+
+  
 }
