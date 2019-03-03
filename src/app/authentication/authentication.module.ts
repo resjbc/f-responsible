@@ -10,6 +10,7 @@ import { ManagementUserComponent } from './components/management-user/management
 import { SearchResponsibleDetailComponent } from './components/search-responsibles/search-responsible-detail/search-responsible-detail.component';
 import { AddHeadWorkComponent } from './components/add-head-work/add-head-work.component';
 import { AddPositionComponent } from './components/add-position/add-position.component';
+import { AddHeadWorkModalComponent } from './components/add-catchment-area/add-head-work-modal/add-head-work-modal.component';
 
 @NgModule({
   declarations: 
@@ -18,13 +19,18 @@ import { AddPositionComponent } from './components/add-position/add-position.com
     ProfileComponent, 
     ChangePasswordComponent, 
     SearchResponsiblesComponent, 
-    ManagementUserComponent, SearchResponsibleDetailComponent, AddHeadWorkComponent, AddPositionComponent
+    ManagementUserComponent, SearchResponsibleDetailComponent, AddHeadWorkComponent, AddPositionComponent, AddHeadWorkModalComponent
   ],
   imports: 
   [
     CommonModule,
     AuthenticationRouting,
     SharedsModule
-  ]
+  ],
+  exports:
+  [
+    AddHeadWorkModalComponent
+  ],
+  entryComponents: [AddHeadWorkModalComponent],
 })
 export class AuthenticationModule { }

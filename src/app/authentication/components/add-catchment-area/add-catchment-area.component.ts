@@ -1,9 +1,10 @@
+import { ModaldataService } from './../../../shareds/services/modaldata.service';
 import { AuthenService } from 'src/app/services/authen.service';
 import { AccountService } from 'src/app/shareds/services/account.service';
 import { AlllistService } from 'src/app/services/alllist.service';
 import { AlertService } from './../../../shareds/services/alert.service';
 import { IAmphurItem, ITambonItem, IVillageItem, IWorkItem } from './../../../shareds/components/listplace/listplace.interface';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, TemplateRef } from '@angular/core';
 import { AppURL } from 'src/app/app.url';
 import { AuthURL } from '../../authentication.url';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { IResponsible, IMyresponsible } from './add-catchment-area.interface';
 import { Router } from '@angular/router';
 import { ResponsibleService } from '../../services/responsible.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { AddHeadWorkModalComponent } from './add-head-work-modal/add-head-work-modal.component';
 
 
 @Component({
@@ -24,6 +27,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   AppURL = AppURL;
   AuthURL = AuthURL;
   form: FormGroup;
+  modalRef: BsModalRef;
 
   amphurs: IAmphurItem[];
   tambons: ITambonItem[];
@@ -36,6 +40,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
 
   private subscr: Subscription;
   private subscr2: Subscription;
+  private subscr3: Subscription;
 
   flagEdit: boolean = false;
 
@@ -52,11 +57,20 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private addlist: AlllistService,
     private account: AccountService,
+    private modalService: BsModalService,
     private authen: AuthenService,
-    private responsibleService: ResponsibleService
+    private responsibleService: ResponsibleService,
+    public modalservice: ModaldataService
 
   ) {
     this.initailCreateFormData();
+    //this.modalService.onShow.subscribe(() => {});
+    this.modalService.onHide.subscribe(async () => {
+      await this.getWorks();
+      if (this.modalservice.getData() > 0)
+        this.form.get('id_work').setValue((this.modalservice.getData()+""));
+      else  this.form.get('id_work').setValue("");
+    });
   }
 
   ngOnInit() {
@@ -70,6 +84,8 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscr.unsubscribe();
     this.subscr2.unsubscribe();
+    this.subscr3.unsubscribe();
+   // this.modalService.onHide.unsubscribe();
   }
 
   private initailCreateFormData() {
@@ -81,7 +97,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       id_work: ['', Validators.required],
       r_id_user: ['', Validators.required],
       address: [''],
-      id_responsible:['']
+      id_responsible: ['']
     });
   }
 
@@ -135,6 +151,18 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
           this.getvillages(tambon);
         }
       });
+
+    this.subscr3 = this.form.get('id_work').valueChanges
+      .subscribe(work => {
+        if (work == '0') {
+          this.openModal();
+        }
+      });
+  }
+
+  openModal() {
+    //console.log(this);
+    this.modalRef = this.modalService.show(AddHeadWorkModalComponent);
   }
 
   getTambons(amphurcode) {
@@ -166,8 +194,14 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   getWorks() {
     this.addlist
       .getWorks()
-      .then(works =>
+      .then(works => {
         this.works = works
+        this.works.push({
+          id_work: 0,
+          work: 'อื่นๆ',
+          active: true
+        })
+      }
       )
       .catch(err => {
         //this.alert.notify(err.Message);
@@ -237,26 +271,26 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
 
   }
 
-  onUpdateResponsible(){
+  onUpdateResponsible() {
     if (this.form.invalid) return this.alert.someting_wrong();
     this.responsible = this.form.value;
 
-    console.log(this.form.value);
-    
+    //console.log(this.form.value);
+
     this.responsibleService.updateResponsible(this.responsible)
       .then(() => {
         this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว", "info");
         this.onClearForm()
         this.MyResposible()
       })
-      .catch(err =>  this.authen.checkMessage(err));
+      .catch(err => this.authen.checkMessage(err));
   }
 
   MyResposible() {
     this.responsibleService.getResponsible(this.account.UserLogin.id_user)
       .then(res => {
         if (res) {
-        this.MyResponsible = res.map((res_: IResponsible) => {
+          this.MyResponsible = res.map((res_: IResponsible) => {
             return {
               id_responsible: res_.id_responsible,
               r_id_user: res_.r_id_user,
@@ -302,29 +336,33 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
       id_work: responsible.id_work.toString(),
       r_id_user: this.account.UserLogin.id_user,
       address: responsible.address,
-      id_responsible : responsible.id_responsible
+      id_responsible: responsible.id_responsible
     });
 
-    
-    
+
+
     this.flagEdit = true;
   }
 
   onDelete(responsible: IResponsible) {
-     this.alert.confirm(`ต้องการลบงานที่รับผิดชอบนี้ใช่หรือไม่`)
-       .then(status => {
-         if (status)
-           this.responsibleService.deleteResponsible(responsible.id_responsible)
-             .then(() => {
+    this.alert.confirm(`ต้องการลบงานที่รับผิดชอบนี้ใช่หรือไม่`)
+      .then(status => {
+        if (status)
+          this.responsibleService.deleteResponsible(responsible.id_responsible)
+            .then(() => {
               this.MyResposible()
-             }).catch(err =>  this.authen.checkMessage(err));
-       })
+            }).catch(err => this.authen.checkMessage(err));
+      })
   }
 
   onClearForm() {
     //this.disbleAll();
     this.form.get('id_responsible').reset("");
     this.flagEdit = false;
+  }
+
+  resultItem(hoscode: String) {
+    this.form.get('hoscode').setValue(hoscode);
   }
 }
 

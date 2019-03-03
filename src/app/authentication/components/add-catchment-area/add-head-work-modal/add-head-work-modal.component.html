@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">เพิ่มหัวข้องาน</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="form" (submit)="onSubmit()">
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-sm-10 offset-sm-1">
+        <div class="form-group">
+          <label for="">หัวข้องาน</label>
+          <input formControlName="work" type="text" class="form-control" placeholder="กรุณากรอกข้อมูล">
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">
+      เพิ่ม
+    </button>
+  </div>
+</form>

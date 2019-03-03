@@ -41,7 +41,7 @@ export class SearchResponsiblesComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['id_responsible','responsible', 'position', 'work', 'detail'];
+  displayedColumns: string[] = ['id_responsible', 'firstname', 'lastname', 'hosname', 'work', 'detail'];
   dataSource: MatTableDataSource<ISearchresponsible>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -54,7 +54,7 @@ export class SearchResponsiblesComponent implements OnInit {
     private modalService: BsModalService,
     private authen: AuthenService,
     private responsibleService: ResponsibleService,
-    private _modalService: ModaldataService 
+    private _modalService: ModaldataService
   ) {
     this.initailCreateFormData();
   }
@@ -105,8 +105,8 @@ export class SearchResponsiblesComponent implements OnInit {
     this.subscr = this.form.get('amphur').valueChanges
       .subscribe(amphur => {
         if (amphur == '') {
-        //  this.form.get('tambon').disable();
-        //  this.form.get('r_villagecodefull').disable();
+          //  this.form.get('tambon').disable();
+          //  this.form.get('r_villagecodefull').disable();
         }
         else {
           this.resetAll();
@@ -119,7 +119,7 @@ export class SearchResponsiblesComponent implements OnInit {
     this.subscr2 = this.form.get('tambon').valueChanges
       .subscribe(tambon => {
         if (tambon == '') {
-         // this.form.get('r_villagecodefull').disable();
+          // this.form.get('r_villagecodefull').disable();
         }
         else {
           this.SearchResposible(tambon);
@@ -130,7 +130,7 @@ export class SearchResponsiblesComponent implements OnInit {
     this.subscr3 = this.form.get('r_villagecodefull').valueChanges
       .subscribe(r_village => {
         if (r_village == '') {
-      
+
         }
         else {
           this.SearchResposible(r_village);
@@ -206,7 +206,7 @@ export class SearchResponsiblesComponent implements OnInit {
       .then(res => {
         if (res) {
           this.responsibles = res.map((res_) => {
-           
+
             return {
               address: res_.address,
               id_work: res_.id_work,
@@ -245,7 +245,7 @@ export class SearchResponsiblesComponent implements OnInit {
       });
   }
 
-  onShowDetail(template: TemplateRef<any>,responsibles: ISearchresponsible){
+  onShowDetail(template: TemplateRef<any>, responsibles: ISearchresponsible) {
     this._modalService.setData(responsibles)
     this.modalRef = this.modalService.show(template);
 
