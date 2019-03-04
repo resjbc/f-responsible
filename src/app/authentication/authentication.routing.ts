@@ -15,7 +15,7 @@ const RouterList: Routes = [
         path: AuthURL.AddCatchmentAreaComponent,
         component: AddCatchmentAreaComponent,
         canActivate: [UserRoleGuard] ,
-        data: { roles: [ERoleAccount.Member, ERoleAccount.Admin] }
+        data: { roles: [ERoleAccount.Member,ERoleAccount.Employee, ERoleAccount.Admin] }
     },
     {
         path: AuthURL.SearchResponsiblesComponent,
@@ -43,7 +43,7 @@ const RouterList: Routes = [
         path: AuthURL.AddPositionComponent,
         component: AddPositionComponent,
         canActivate: [UserRoleGuard] ,
-        data: { roles: [ERoleAccount.Employee, ERoleAccount.Admin] }
+        data: { roles: [ERoleAccount.Admin] }
     },
 ];
 

@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from 'src/app/shareds/services/account.service';
 import { AuthenService } from 'src/app/services/authen.service';
 import { AuthURL } from 'src/app/authentication/authentication.url';
+declare const swal;
 
 @Component({
   selector: 'app-login',
@@ -56,6 +57,10 @@ export class LoginComponent implements OnInit ,ILoginComponent {
       username: ["", Validators.required],
       password: ["", Validators.required]
     });
+  }
+
+  onShowModal(){
+    swal("ติดต่อ Admin ครับ");
   }
 
 }

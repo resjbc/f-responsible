@@ -5,6 +5,8 @@ import { AuthenService } from '../services/authen.service';
 import { Observable } from 'rxjs';
 import { ERoleAccount } from '../components/login/login.interface';
 import { AppURL } from '../app.url';
+import { AuthURL } from '../authentication/authentication.url';
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +30,14 @@ export class UserRoleGuard implements CanActivate {
           if (roles.filter(item => item == userLogin.role).length > 0)
             resolve(true);
           else {
-            this.router.navigate(['/', AppURL.Authen]);
-            resolve(false);
+            if (userLogin.role == 2) {
+              this.router.navigate(['/', AppURL.Authen, AuthURL.SearchResponsiblesComponent]);
+              resolve(false);
+            }
+            else {
+              this.router.navigate(['/', AppURL.Authen]);
+              resolve(false);
+            }
           }
         })
         .catch(() => resolve(false));
