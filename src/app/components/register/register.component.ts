@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
     private modalService: BsModalService,
   ) {
     this.initialCreateFormData();
-   }
+  }
 
   ngOnInit() {
     this.getListPositions();
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
       username: ['', [Validators.required]],
-      cid: ['', [Validators.required]],
+      cid: ['', [Validators.required, this.validator.validateIdCard]],
       password: ['', [Validators.required, this.validator.isPassword]],
       cpassword: ['', [Validators.required, this.validator.comparePassword('password')]],
       id_position: ['', [Validators.required]],
@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     if (this.form.invalid)
       return this.alert.someting_wrong();
+
 
     this.account
       .onRegister(this.form.value)
@@ -80,9 +81,11 @@ export class RegisterComponent implements OnInit {
       .catch(err =>
         this.alert.notify(err.Message));
   }
-  
+
   resultItem(hoscode: String) {
     this.form.get('hoscode').setValue(hoscode);
   }
+
+
 
 }
