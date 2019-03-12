@@ -11,6 +11,7 @@ import { AlertService } from '../../../shareds/services/alert.service';
 import { AuthenService } from '../../../services/authen.service';
 import { MemberService } from '../../services/member.service';
 import { ERoleAccount } from 'src/app/components/login/login.interface';
+import { ValidatorsService } from '../../../shareds/services/validators.service';
 
 @Component({
   selector: 'app-management-user',
@@ -49,7 +50,8 @@ export class ManagementUserComponent implements OnInit {
     private build: FormBuilder,
     private authen: AuthenService,
     private alllists: AlllistService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private validator: ValidatorsService
   ) {
 
   }
@@ -67,7 +69,7 @@ export class ManagementUserComponent implements OnInit {
     this.form = this.build.group({
       firstname: ['', [Validators.required,Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
       lastname: ['', [Validators.required,Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
-      cid: ['', [Validators.required,Validators.pattern("[0-9]{13,13}")]],
+      cid: ['', [Validators.required,Validators.pattern("[0-9]{13,13}"),this.validator.validateIdCard]],
       id_position: ['',Validators.required],
       hoscode: ['',[Validators.pattern("[0-9]{5,5}")]],
       username: [''],

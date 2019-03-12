@@ -8,6 +8,7 @@ import { AuthenService } from '../../../services/authen.service';
 import { AccountService } from '../../../shareds/services/account.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { IAccount, IPositionItem, ERoleAccount, ERoleAccountTH } from '../../../components/login/login.interface';
+import { ValidatorsService } from '../../../shareds/services/validators.service';
 
 @Component({
   selector: 'app-profile',
@@ -31,6 +32,7 @@ export class ProfileComponent implements OnInit {
     private account: AccountService,
     private modalService: BsModalService,
     private alllists: AlllistService,
+    private validator: ValidatorsService
   ) { 
     this.initialCreateFormData();
     this.getListPositions();
@@ -59,7 +61,7 @@ export class ProfileComponent implements OnInit {
     this.form = this.build.group({
       firstname: ['', [Validators.required, Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
       lastname: ['', [Validators.required, Validators.pattern('^[ก-๏\sa-zA-Z]+$')]],
-      cid: ['', [Validators.required, Validators.pattern("[0-9]{13,13}")]],
+      cid: ['', [Validators.required, Validators.pattern("[0-9]{13,13}"),this.validator.validateIdCard]],
       id_position: ['', [Validators.required]],
       id_user: [null],
       hoscode: ['', [Validators.required]],
@@ -81,6 +83,7 @@ export class ProfileComponent implements OnInit {
 
   onUpdatePerson() {
     if (this.form.invalid) return this.alert.someting_wrong();
+
     this.userLogin = this.form.value;
     this.userLogin.role = this.account.UserLogin.role;
     this.account.onUpdateProfile( this.authen.getAuthenticated(),this.userLogin)

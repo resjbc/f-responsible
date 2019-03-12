@@ -48,8 +48,8 @@ export class RegisterComponent implements OnInit {
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
       username: ['', [Validators.required]],
-      cid: ['', [Validators.required, this.validator.validateIdCard]],
-      password: ['', [Validators.required, this.validator.isPassword]],
+      cid: ['', [Validators.required, this.validator.validateIdCard,Validators.pattern("[0-9]{13,13}")]],
+      password: ['', [Validators.required, this.validator.isPassword,]],
       cpassword: ['', [Validators.required, this.validator.comparePassword('password')]],
       id_position: ['', [Validators.required]],
       hoscode: ['', [Validators.required]]
