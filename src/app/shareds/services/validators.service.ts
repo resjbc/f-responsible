@@ -43,6 +43,6 @@ export class ValidatorsService {
     total = (11 - (sum % 11)) % 10;
 
     if (total != id[12]) return { cid: true };
-    return;
+    return false;
   }
 }
