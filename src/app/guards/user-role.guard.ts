@@ -40,7 +40,10 @@ export class UserRoleGuard implements CanActivate {
             }
           }
         })
-        .catch(() => resolve(false));
+        .catch((err) => {
+          this.authen.checkMessage(err);
+          resolve(false)
+        });
 
     })
   }
