@@ -31,6 +31,7 @@ export class ValidatorsService {
   }
 
   validateIdCard(cid: AbstractControl) {
+    if(!cid.value) return false;
     let id = cid.value;
     let sum = 0;
     let total = 0;

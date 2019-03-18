@@ -145,7 +145,7 @@ export class ManagementUserComponent implements OnInit {
     if (this.form.invalid) return this.alert.someting_wrong();
     this.member = this.form.value;
     //this.member.role = 1;
-    console.log(this.member)
+    //console.log(this.member)
     this.memberService.updateMember(this.member)
         .then(() => {
           this.alert.notify("แก้ไขข้มูลสำเร็จแล้ว","info");

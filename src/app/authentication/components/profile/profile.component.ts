@@ -69,6 +69,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+ 
+
   onResetForm() {
     this.form.setValue({
       firstname: this.account.UserLogin.firstname,

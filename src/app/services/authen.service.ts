@@ -33,6 +33,7 @@ export class AuthenService {
   }
 
   checkMessage(message) {
+
     if (message.error.statusCode == 401) {
       this.clearAuthenticated()
       this.alert.notify("หมดเวลา กรุณาเข้าสู่ระบบใหม่");
