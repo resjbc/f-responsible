@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /catchment-area/
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . index.html [L]
+</IfModule>
+
+#เปลี่ยน AllowOverride None เป็น AllowOverride All ให้หมด ใน httpd.conf 
+#เอา .htaccess ไปวางไว้ใน root ของเว็บที่ 
+#เปลี่ยน  RewriteBase ตามที่ตั้งชื่อของ root โฟลเดอร์ ตัวอย่าง RewriteBase /kbs/ จากข้างบน
