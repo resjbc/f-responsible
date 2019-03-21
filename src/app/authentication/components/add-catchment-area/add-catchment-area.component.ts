@@ -257,6 +257,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
     if (this.form.invalid) return this.alert.someting_wrong();
 
     this.responsible = this.form.value;
+    this.responsible.id_responsible = null;
 
     this.responsibleService.addResponsible(this.responsible)
       .then(res => {
@@ -274,8 +275,6 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
   onUpdateResponsible() {
     if (this.form.invalid) return this.alert.someting_wrong();
     this.responsible = this.form.value;
-
-    //console.log(this.form.value);
 
     this.responsibleService.updateResponsible(this.responsible)
       .then(() => {
@@ -351,6 +350,7 @@ export class AddCatchmentAreaComponent implements OnInit, OnDestroy {
           this.responsibleService.deleteResponsible(responsible.id_responsible)
             .then(() => {
               this.MyResposible()
+              this.onClearForm();
             }).catch(err => this.authen.checkMessage(err));
       })
   }

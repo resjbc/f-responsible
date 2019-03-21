@@ -23,19 +23,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/assets/css/main.css"
+              "src/styles.css"
             ],
-            "scripts": [
-              "src/assets/js/jquery-3.2.1.min.js",
-              "src/assets/js/popper.min.js",
-              "src/assets/js/bootstrap.min.js",
-              "src/assets/js/main.js",
-              "src/assets/js/plugins/pace.min.js",
-              "src/assets/js/plugins/bootstrap-notify.min.js",
-              "src/assets/js/sweetalert.min.js"
-
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {

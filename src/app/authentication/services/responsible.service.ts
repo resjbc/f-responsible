@@ -26,6 +26,9 @@ export class ResponsibleService {
   }
 
   updateResponsible(body) {
+    delete body.amphur;
+    delete body.tambon;
+    console.log(body);
     return this.http
       .requestPut(`responsible`, body ,this.authen.getAuthenticated())
       .toPromise() as Promise<IResponsible>;

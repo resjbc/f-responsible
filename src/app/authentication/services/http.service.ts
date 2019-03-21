@@ -10,7 +10,8 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  private address: string = 'http://localhost:3000/';
+  private address: string = 'http://203.157.237.77:3001/';
+  //private address: string = 'http://localhost:3000/';
 
   //ส่งข้อมูลแบบ Get method
   requestGet_Param(url: string, params?: any, accessToken?: string) {
