@@ -42,7 +42,7 @@
                   <label for="">หมู่บ้าน</label>
                   <select class="form-control" formControlName="r_villagecodefull">
                     <option value="" selected>เลือกหมู่บ้าน</option>
-                    <option *ngFor="let village of villages" [value]="village.villagecodefull" >{{village.villagename}}</option>
+                    <option *ngFor="let village of villages" [value]="village.villagecodefull" >{{village.villagename}} ({{village.villagecode}})</option>
                   </select>
                 </div>
               </div>

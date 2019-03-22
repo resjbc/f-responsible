@@ -42,7 +42,7 @@
                   <label for="">หมู่บ้าน</label>
                   <select class="form-control" formControlName="r_villagecodefull">
                     <option value="" selected>เลือกหมู่บ้าน</option>
-                    <option *ngFor="let village of villages" [value]="village.villagecodefull" >{{village.villagename}}</option>
+                    <option *ngFor="let village of villages" [value]="village.villagecodefull" >{{village.villagename}} ({{village.villagecode}})</option>
                   </select>
                 </div>
               </div>
@@ -127,7 +127,7 @@
                       <!--Villagename  Column -->
                       <ng-container matColumnDef="villagename">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> หมู่บ้าน</th>
-                        <td mat-cell *matCellDef="let row"> {{row.villagename}} </td>
+                        <td mat-cell *matCellDef="let row"> {{row.villagename}} ({{row.r_villagecode}})</td>
                       </ng-container>
   
                       <!--Work  Column -->
